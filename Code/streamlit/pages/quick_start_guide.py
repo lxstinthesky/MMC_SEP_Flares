@@ -1,9 +1,32 @@
 import streamlit as st
 from pathlib import Path
+import base64
+import mimetypes
 import pandas as pd
 import numpy as np
 
 # Get the path relative to this file
+static_dir = Path(__file__).parent.parent / "static"
+
+
+def read_html_with_embedded_images(html_path: Path) -> str:
+    html_content = html_path.read_text()
+
+    for asset_path in static_dir.iterdir():
+        if not asset_path.is_file():
+            continue
+
+        mime_type, _ = mimetypes.guess_type(asset_path.name)
+        if mime_type is None:
+            continue
+
+        encoded = base64.b64encode(asset_path.read_bytes()).decode("ascii")
+        data_uri = f"data:{mime_type};base64,{encoded}"
+        html_content = html_content.replace(f'app/static/{asset_path.name}', data_uri)
+
+    return html_content
+
+
 md_file_0 = Path(__file__).parent / "quick_start_guide_0.md"
 md_text = md_file_0.read_text()
 
@@ -35,7 +58,7 @@ md_text = md_file_0.read_text()
 st.markdown(md_text, unsafe_allow_html=True)
 
 html_file = Path(__file__).parent / "quick_start_guide_2.html"
-html_content = html_file.read_text()
+html_content = read_html_with_embedded_images(html_file)
 st.html(html_content)
 
 md_file_0 = Path(__file__).parent / "quick_start_guide_2_1.md"
@@ -51,7 +74,7 @@ with col_main:
             with col1:
                 st.markdown("1. **Magnetic Connectivity**: General information on the flare, such as detailed start and end times, its location in Carrington latitude and longitude and some information on magnetic connectivity, including a plot obtained from the [Magnetic Connectivity Tool]()")
             with col2:
-                st.image("/workspaces/MMC_SEP_Flares/Code/streamlit/static/mc1.png")
+                st.image(static_dir / "mc1.png")
         
         with st.expander("", expanded=True):
             st.markdown("2. **EPD Data**: A detailed breakdown which EPD instruments detected an SEP event associated with the selected flare. For example, the same SEP could be measured from different directions, for example by EPT-SUN and EPT-SOUTH. Additionally, the number of connected energy channels per instrument are displayed, including the lowest energy channel and the highest energy channel.")
@@ -61,7 +84,7 @@ with col_main:
             with col1:
                 st.markdown("3. **Detailed Plot**: This plot provides a detailed look at a six hour window around the flare peak time. The topmost panel displays STIX lightcurves from two different energy channels, including the start, peak and end times of the flare. The remaining four panels show different channels from the selected EPD sensor. Which channels are displayed, can be configured. If desired, the expected arrival windows of SEP can be shown even if there was no magnetic connection between Solar Orbiter and the flare footpoints (according to the magnetic connectivity tool). The color coding is explained in the following section")
             with col2:
-                st.image("/workspaces/MMC_SEP_Flares/Code/streamlit/static/detail1.png")
+                st.image(static_dir / "detail1.png")
 
 
 md_file_0 = Path(__file__).parent / "quick_start_guide_3.md"
@@ -70,7 +93,7 @@ md_text = md_file_0.read_text()
 st.markdown(md_text, unsafe_allow_html=True)
 
 html_file = Path(__file__).parent / "flare_connectivity_summary.html"
-html_content = html_file.read_text()
+html_content = read_html_with_embedded_images(html_file)
 st.html(html_content)
 
 md_file_0 = Path(__file__).parent / "quick_start_guide_3_1.md"
