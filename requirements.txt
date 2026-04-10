@@ -1,0 +1,8 @@
+matplotlib==3.10.0
+streamlit==1.42.2
+pandas==2.2.3
+numpy==2.2.3
+requests==2.32.3
+solarmach==0.5.0
+solo-epd-loader==0.4.1
+git+https://github.com/i4ds/stixdcpy.git@5f080be7de02da7fa725a8acc0a174aa2a65a9ae

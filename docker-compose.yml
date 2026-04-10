@@ -1,0 +1,22 @@
+services:
+  streamlit:
+    build: .
+    container_name: streamlit
+    restart: unless-stopped
+    ports:
+      - "80:8501"
+    networks:
+      - appnet
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2GB
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  appnet:
+    driver: bridge

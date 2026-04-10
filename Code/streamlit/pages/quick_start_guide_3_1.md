@@ -1,0 +1,1 @@
+The plot above displays a total of 21 flares. In 20 cases, there is a likely magnetic connection between the flare footpoint and solar orbiter. But only in 8 out of 20 cases, there is an SEP event coinciding with the flare, which marks the flares as candidate flare, e.g. all criteria are met.

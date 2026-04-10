@@ -1,0 +1,2 @@
+All following plots are automatically adjusted to display information only matching the selected criteria. By changing the sensor, it is possible to check if only one sensor recorded an SEP event or if other sensors detected something similar, allowing to check for the robustness of the detection. Different combinations of the key criteria allow to estimate for potential false positives or false negatives.
+
